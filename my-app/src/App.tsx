@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { colors } from "./constants/colors";
 import { ColorTile } from "./components/ColorTile";
 
 function App() {
+  // STATE
+  const [expandedTile, setExpandedTile] = useState<number | null>(-1);
+
+  // CALLBACKS
+  const handleTileClick = (index: number) => {
+    if (index === expandedTile) {
+      // closes
+      setExpandedTile(null);
+    } else {
+      setExpandedTile(index);
+    }
+  };
+
   return (
     <>
       {/* what were doing here is defining an inline stylesheet for the scrolling div on the page */}
@@ -35,7 +48,7 @@ function App() {
           </div>
         </div>
 
-        {/* Wrap grid in a container div */}
+        {/* Wrap grid in a container div, should be seperated into ColorGridComponents */}
         <div className="relative z-50 w-full max-w-2xl">
           <div className="grid grid-cols-3 gap-4 w-full">
             {colors.map((color, index) => (
@@ -44,6 +57,8 @@ function App() {
                 name={color.name}
                 bgClass={color.bgClass}
                 feeling={color.feeling}
+                isExpanded={index === expandedTile}
+                handleTileClick={() => handleTileClick(index)}
               />
             ))}
           </div>
