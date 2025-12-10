@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const clientId = '0b5b54f0a405487c9991bdcca27c3197'
-const redirectURI = 'http://127.0.0.1:3000/'
+const redirectURI = window.location.origin + '/';
 
 
 export function useSpotifyAuth(){
