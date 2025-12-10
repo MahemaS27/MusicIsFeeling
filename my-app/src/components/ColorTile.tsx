@@ -1,3 +1,4 @@
+import { X } from "lucide-react";
 import { useState } from "react";
 
 // this is how you declare the interface for props in typescript!
@@ -33,7 +34,7 @@ export function ColorTile({
   };
 
   //DEBUG
-  console.log(bgClass, isExpanded);
+
   return (
     <div
       className={`${bgClass} shadow-lg flex items-center justify-center cursor-pointer
@@ -74,6 +75,13 @@ export function ColorTile({
             paintOrder: "stroke fill",
           }}
         >
+          <button
+            onClick={handleCloseTile}
+            className="absolute top-8 right-8 p-2 hover:opacity-70 transition-opacity"
+            aria-label="Close"
+          >
+            X
+          </button>
           {feeling}
         </span>
       )}

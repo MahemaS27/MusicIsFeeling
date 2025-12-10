@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "lucide-react": "^0.556.0",
     "yarn": "^1.22.22"
   }
 }
