@@ -30,6 +30,7 @@ export function ColorTile({
   const handleCloseTile = () => {
     if (isExpanded) {
       handleTileClick();
+      setIsHovered(false);
     }
   };
 

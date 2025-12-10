@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { colors } from "./constants/colors";
 import { ColorTile } from "./components/ColorTile";
+import { useSpotifyAuth } from "./hooks/useSpotifyAuth";
 
 function App() {
+  // loading profile
+  const { profile, loading } = useSpotifyAuth();
+
   // STATE
   const [expandedTile, setExpandedTile] = useState<number | null>(-1);
 
@@ -15,6 +19,14 @@ function App() {
       setExpandedTile(index);
     }
   };
+
+  if (loading) {
+    return <div>Loading Component</div>;
+  }
+
+  if (!profile) {
+    return <div>Redirecting to Spotify</div>;
+  }
 
   return (
     <>
