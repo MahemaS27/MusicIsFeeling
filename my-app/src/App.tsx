@@ -20,12 +20,8 @@ function App() {
     }
   };
 
-  if (loading) {
-    return <div>Loading Component</div>;
-  }
-
-  if (!profile) {
-    return <div>Redirecting to Spotify</div>;
+  if (loading || !profile) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -74,6 +70,12 @@ function App() {
               />
             ))}
           </div>
+        </div>
+        <div
+          className="absolute bottom-0 left-0 right-0 ml-3"
+          style={{ fontFamily: "Snell Roundhand, cursive", fontSize: "2rem" }}
+        >
+          hi, {profile.display_name}
         </div>
       </div>
     </>

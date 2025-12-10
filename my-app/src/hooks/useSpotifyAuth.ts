@@ -1,28 +1,43 @@
 import { useEffect, useState } from "react";
 
 const clientId = '0b5b54f0a405487c9991bdcca27c3197'
-const redirectURI = 'http://127.0.0.1:3000/callback'
+const redirectURI = 'http://127.0.0.1:3000/'
 
 
 export function useSpotifyAuth(){
     const [profile, setProfile] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(()=> {
-        const handleAuth = async()=> {
-            const params = new URLSearchParams(window.location.search);
-            const code = params.get("code");
-            if (!code) {
-                await redirectToAuthCodeFlow(clientId);
-            } else {
+    useEffect(() => {
+    const handleAuth = async () => {
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get("code");
+        
+        if (code) {
+            // We have a code from Spotify callback, exchange it for token
+            try {
                 const accessToken = await getAccessToken(clientId, code);
                 const userProfile = await fetchProfile(accessToken);
-                setProfile(userProfile); // Fixed: use setProfile
-                setLoading(false); // Fixed: set loading to false
+                console.log(userProfile);
+                setProfile(userProfile);
+                window.history.replaceState({}, document.title, "/");
+                localStorage.removeItem("verifier");
+            } catch (error) {
+                console.error('Auth error:', error);
+            } finally {
+                setLoading(false);
             }
+        } else if (!localStorage.getItem("verifier")) {
+            // No code and no verifier stored, start the auth flow
+            await redirectToAuthCodeFlow(clientId);
+        } else {
+            // Waiting for redirect back from Spotify
+            setLoading(false);
         }
-        handleAuth()
-    }, [])
+    };
+    
+    handleAuth();
+}, []);
 
     return {profile, loading}
 }
@@ -79,7 +94,7 @@ async function getAccessToken(clientId: string, code: string): Promise<string> {
     params.append("client_id", clientId);
     params.append("grant_type", "authorization_code");
     params.append("code", code);
-    params.append("redirect_uri", redirectURI); // Fixed: use the same redirectURI
+    params.append("redirect_uri", redirectURI);
     params.append("code_verifier", verifier!);
 
     const result = await fetch("https://accounts.spotify.com/api/token", {
@@ -88,14 +103,20 @@ async function getAccessToken(clientId: string, code: string): Promise<string> {
         body: params
     });
 
-    const { access_token } = await result.json();
-    return access_token;
+    const data = await result.json();
+    console.log('Token response:', data); // Check for errors
+    
+    if (!result.ok) {
+        console.error('Token error:', data);
+        throw new Error(data.error_description || 'Failed to get access token');
+    }
+
+    return data.access_token;
 }
 
 async function fetchProfile(token: string): Promise<any> {
     const result = await fetch("https://api.spotify.com/v1/me", {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` }
+        method: "GET", headers: { Authorization: `Bearer ${token}` }
     });
 
     return await result.json();
