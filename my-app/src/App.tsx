@@ -9,8 +9,7 @@ function App() {
   // loading profile
   const { profile, loading, accessToken } = useSpotifyAuth();
   // loading currently playing track
-  const { currentlyPlaying, loading: loadingCurrentlyPlayingTrack } =
-    useGetCurrentlyPlayingTrack(accessToken);
+  const { currentlyPlaying } = useGetCurrentlyPlayingTrack(accessToken);
 
   // STATE
   const [expandedTile, setExpandedTile] = useState<number | null>(-1);
@@ -28,13 +27,6 @@ function App() {
   if (loading || !profile) {
     return <div>Loading...</div>;
   }
-
-  console.log(
-    currentlyPlaying,
-    "currentlyPlaying",
-    "loading current track",
-    loadingCurrentlyPlayingTrack
-  );
 
   return (
     <>
@@ -89,8 +81,8 @@ function App() {
         >
           hi, {profile.display_name}
         </div>
-        <div className="absolute bottom-0 right-0 mr-3">
-          <MusicPlayer />
+        <div className="absolute top-0 right-0 mr-3">
+          <MusicPlayer currentlyPlaying={currentlyPlaying} />
         </div>
       </div>
     </>

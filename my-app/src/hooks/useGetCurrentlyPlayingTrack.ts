@@ -13,7 +13,6 @@ export function useGetCurrentlyPlayingTrack(accessToken: string|null){
     useEffect(() => {
         // note that in react, useEffects themselves cannot be async, you have to create an ASYNC wrapper function. 
         const loadCurrentTrack = async () => {
-            console.log('in loadCurrentTrack')
             if (accessToken){
             try {
                 const track = await fetchCurrentlyPlayingTrack(accessToken);
