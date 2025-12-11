@@ -3,6 +3,7 @@ import { colors } from "./constants/colors";
 import { ColorTile } from "./components/ColorTile";
 import { useSpotifyAuth } from "./hooks/useSpotifyAuth";
 import { useGetCurrentlyPlayingTrack } from "./hooks/useGetCurrentlyPlayingTrack";
+import { MusicPlayer } from "./components/MusicPlayer";
 
 function App() {
   // loading profile
@@ -87,6 +88,9 @@ function App() {
           style={{ fontFamily: "Snell Roundhand, cursive", fontSize: "2rem" }}
         >
           hi, {profile.display_name}
+        </div>
+        <div className="absolute bottom-0 right-0 mr-3">
+          <MusicPlayer />
         </div>
       </div>
     </>
