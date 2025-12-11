@@ -68,7 +68,7 @@ function App() {
         </div>
 
         {/* Wrap grid in a container div, should be seperated into ColorGridComponents */}
-        <div className="relative z-50 w-full max-w-2xl">
+        <div className="relative z-50 w-full max-w-xl">
           <div className="grid grid-cols-3 gap-4 w-full">
             {colors.map((color, index) => (
               <ColorTile

@@ -17,7 +17,6 @@ export function useGetCurrentlyPlayingTrack(accessToken: string|null){
             if (accessToken){
             try {
                 const track = await fetchCurrentlyPlayingTrack(accessToken);
-                console.log(track);
                 const artists = track.item.artists;
                 const artistsList = createArtistsList(artists);
                 

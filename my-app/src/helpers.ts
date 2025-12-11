@@ -1,4 +1,4 @@
 export function createArtistsList(artists: any): string {
-    console.log('artists', artists)
-    return ''
+    const artistsList =  artists.map((artist: any)=> artist.name) as Array<string>
+    return artistsList.join(',')
 }
