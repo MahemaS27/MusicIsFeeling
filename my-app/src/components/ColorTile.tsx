@@ -1,4 +1,5 @@
 import { useState } from "react";
+import React from "react";
 
 // this is how you declare the interface for props in typescript!
 interface ColorTileProps {

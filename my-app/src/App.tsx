@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { colors } from "./constants/colors";
 import { ColorTile } from "./components/ColorTile";
 import { useSpotifyAuth } from "./hooks/useSpotifyAuth";
+import { useGetCurrentlyPlayingTrack } from "./hooks/useGetCurrentlyPlayingTrack";
 
 function App() {
   // loading profile
-  const { profile, loading } = useSpotifyAuth();
+  const { profile, loading, accessToken } = useSpotifyAuth();
+  // loading currently playing track
+  const { currentlyPlaying, loading: loadingCurrentlyPlayingTrack } =
+    useGetCurrentlyPlayingTrack(accessToken);
 
   // STATE
   const [expandedTile, setExpandedTile] = useState<number | null>(-1);
@@ -23,6 +27,13 @@ function App() {
   if (loading || !profile) {
     return <div>Loading...</div>;
   }
+
+  console.log(
+    currentlyPlaying,
+    "currentlyPlaying",
+    "loading current track",
+    loadingCurrentlyPlayingTrack
+  );
 
   return (
     <>
