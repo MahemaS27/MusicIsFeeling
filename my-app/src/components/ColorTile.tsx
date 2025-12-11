@@ -1,4 +1,3 @@
-import { X } from "lucide-react";
 import { useState } from "react";
 
 // this is how you declare the interface for props in typescript!
