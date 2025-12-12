@@ -4,12 +4,17 @@ import { ColorTile } from "./components/ColorTile";
 import { useSpotifyAuth } from "./hooks/useSpotifyAuth";
 import { useGetCurrentlyPlayingTrack } from "./hooks/useGetCurrentlyPlayingTrack";
 import { MusicPlayer } from "./components/MusicPlayer";
+import { useGetRecentListening } from "./hooks/useGetRecentListening";
 
 function App() {
+  // TODO: for all of these get their loading states and only when all of them are not loadnig then load the main app
   // loading profile
   const { profile, loading, accessToken } = useSpotifyAuth();
   // loading currently playing track
   const { currentlyPlaying } = useGetCurrentlyPlayingTrack(accessToken);
+  // loading recent listening
+  const { songs } = useGetRecentListening(accessToken);
+  console.log("Recent Listening Tracks: ", songs);
 
   // STATE
   const [expandedTile, setExpandedTile] = useState<number | null>(-1);
