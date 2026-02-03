@@ -202,6 +202,7 @@ async function getAccessToken(clientId: string, code: string) {
     params.append("grant_type", "authorization_code");
     params.append("code", code);
     params.append("redirect_uri", redirectURI);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     params.append("code_verifier", verifier!);
 
     const result = await fetch("https://accounts.spotify.com/api/token", {
